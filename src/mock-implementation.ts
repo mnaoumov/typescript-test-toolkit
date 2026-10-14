@@ -5,11 +5,10 @@
  * with access to original implementations.
  */
 
+import type { GenericFunction } from '@mnaoumov/typescript-lib/function';
 import type { MockInstance } from 'vitest';
 
 import { vi } from 'vitest';
-
-import type { GenericFunction } from '../function.ts';
 
 /**
  * Parameters for {@link mockImplementation}.

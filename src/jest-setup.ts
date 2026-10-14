@@ -1,10 +1,10 @@
 /**
  * @file
  *
- * Jest setup file for `obsidian-dev-utils`.
+ * Jest setup file for `@mnaoumov/typescript-test-toolkit`.
  *
  * Add it to your Jest config's `setupFilesAfterEach` (or import it from another setup file). Before
- * each test it resets the shared-state bag and enables async-operation tracking; after each test it
+ * each test it resets the shared-state slot and enables async-operation tracking; after each test it
  * disables tracking, so tests can `await waitForAllAsyncOperations()` against isolated state.
  *
  * This is a per-test setup file, not a Jest `globalSetup` module, so it has no default export.
