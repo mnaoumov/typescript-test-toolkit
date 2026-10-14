@@ -1,4 +1,19 @@
 import {
+  invokeAsyncSafely,
+  neverEnds,
+  sleep
+} from '@mnaoumov/typescript-lib/async';
+import {
+  ASYNC_OPERATION_HOOK_VERSION,
+  getAsyncOperationHook,
+  setAsyncOperationHook
+} from '@mnaoumov/typescript-lib/async-operation-hook';
+import { dispose } from '@mnaoumov/typescript-lib/disposable';
+import {
+  noop,
+  noopAsync
+} from '@mnaoumov/typescript-lib/function';
+import {
   afterEach,
   describe,
   expect,
@@ -7,26 +22,11 @@ import {
 } from 'vitest';
 
 import {
-  ASYNC_OPERATION_HOOK_VERSION,
-  getAsyncOperationHook,
-  setAsyncOperationHook
-} from './async-operation-hook.ts';
-import {
   disableAsyncOperationTracking,
   enableAsyncOperationTracking,
   isAsyncOperationTrackingEnabled,
   waitForAllAsyncOperations
 } from './async-operation-tracking.ts';
-import {
-  invokeAsyncSafely,
-  neverEnds,
-  sleep
-} from './async.ts';
-import { dispose } from './disposable.ts';
-import {
-  noop,
-  noopAsync
-} from './function.ts';
 
 describe('async operation tracking', () => {
   afterEach(() => {
@@ -144,8 +144,8 @@ describe('async operation tracking', () => {
     disableAsyncOperationTracking();
     vi.resetModules();
     const freshTrackingModule = await import('./async-operation-tracking.ts');
-    const freshHookModule = await import('./async-operation-hook.ts');
-    await import('./async.ts');
+    const freshHookModule = await import('@mnaoumov/typescript-lib/async-operation-hook');
+    await import('@mnaoumov/typescript-lib/async');
 
     expect(freshTrackingModule.isAsyncOperationTrackingEnabled()).toBe(false);
     expect(freshHookModule.getAsyncOperationHook()).toBeNull();
@@ -156,7 +156,7 @@ describe('async operation tracking', () => {
   it('should track operations a second loaded copy of the library schedules', async () => {
     enableAsyncOperationTracking();
     vi.resetModules();
-    const secondCopy = await import('./async.ts');
+    const secondCopy = await import('@mnaoumov/typescript-lib/async');
     expect(secondCopy.invokeAsyncSafely).not.toBe(invokeAsyncSafely);
 
     let didComplete = false;

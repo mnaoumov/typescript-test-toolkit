@@ -8,15 +8,15 @@
  * second copy of this module reads the same registry the first one installed.
  */
 
-import type { AsyncOperationHook } from './async-operation-hook.ts';
+import type { AsyncOperationHook } from '@mnaoumov/typescript-lib/async-operation-hook';
 
-import { snapshot } from './array.ts';
+import { snapshot } from '@mnaoumov/typescript-lib/array';
 import {
   ASYNC_OPERATION_HOOK_VERSION,
   getAsyncOperationHook,
   setAsyncOperationHook
-} from './async-operation-hook.ts';
-import { CallbackDisposable } from './disposable.ts';
+} from '@mnaoumov/typescript-lib/async-operation-hook';
+import { CallbackDisposable } from '@mnaoumov/typescript-lib/disposable';
 
 interface TrackingAsyncOperationHook extends AsyncOperationHook {
   readonly pendingAsyncOperations: Set<Promise<void>>;

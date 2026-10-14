@@ -1,11 +1,11 @@
 /**
  * @file
  *
- * Framework-agnostic test-setup endpoint for `obsidian-dev-utils`.
+ * Framework-agnostic test-setup endpoint for `@mnaoumov/typescript-test-toolkit`.
  *
  * Wires the library's per-test setup into a test framework's `beforeEach` / `afterEach` lifecycle
- * hooks. Before each test it resets the shared-state bag on `globalThis.__obsidianDevUtils` (so
- * accumulated state such as debuggers, queues, and registered handlers does not leak between tests),
+ * hooks. Before each test it resets the `@mnaoumov/typescript-lib` shared-state slot (so accumulated
+ * state such as debuggers and the shared abort controller does not leak between tests),
  * resets the injected {@link Library} state (so the next test can re-initialize), enables
  * async-operation tracking, silences every `console` method (so incidental log/warn/error output
  * does not pollute the test report), clears `localStorage` (so per-worker Web Storage state does not
@@ -26,27 +26,29 @@
  * hooks imported from their respective frameworks.
  */
 
-// Imported through `async.ts`, which re-exports them, rather than from `async-operation-tracking.ts`: that preloads
-// `async.ts` before any test file runs, so a test's partial `vi.mock` of a module it imports (`error.ts`, say) never
-// reaches it. Suites, consumers' included, have come to rely on that.
+// Preloads `async.ts` before any test file runs, so a test's partial `vi.mock` of a module it imports (`error.ts`,
+// say) never reaches it. Suites, consumers' included, have come to rely on that: when this import was dropped, 27
+// cases of one suite broke on a partial `error.ts` mock.
+// eslint-disable-next-line import-x/no-unassigned-import -- The import is for its side effect: loading the module early.
+import '@mnaoumov/typescript-lib/async';
+import {
+  drainCollectedUnhandledAsyncErrors,
+  startCollectingUnhandledAsyncErrors,
+  stopCollectingUnhandledAsyncErrors
+} from '@mnaoumov/typescript-lib/error';
+import { noop } from '@mnaoumov/typescript-lib/function';
+import { Library } from '@mnaoumov/typescript-lib/library';
+import { ensureNonNullable } from '@mnaoumov/typescript-lib/type-guards';
+import { resetTypescriptLibState } from '@mnaoumov/typescript-lib/typescript-lib-state';
+
 import {
   disableAsyncOperationTracking,
   enableAsyncOperationTracking,
   isAsyncOperationTrackingEnabled,
   waitForAllAsyncOperations
-} from './async.ts';
-import {
-  drainCollectedUnhandledAsyncErrors,
-  startCollectingUnhandledAsyncErrors,
-  stopCollectingUnhandledAsyncErrors
-} from './error.ts';
-import { noop } from './function.ts';
-import { Library } from './library.ts';
-import { resetObsidianDevUtilsState } from './obsidian-dev-utils-state.ts';
-import { restoreNodeWebGlobals } from './script-utils/node-web-globals.ts';
-import { installWarningsAsErrors } from './script-utils/warnings-as-errors.ts';
-import { ensureNonNullable } from './type-guards.ts';
-import { resetTypescriptLibState } from './typescript-lib-state.ts';
+} from './async-operation-tracking.ts';
+import { restoreNodeWebGlobals } from './node-web-globals.ts';
+import { installWarningsAsErrors } from './warnings-as-errors.ts';
 
 /**
  * A test-framework lifecycle hook registrar, such as `beforeEach` or `afterEach`.
@@ -116,7 +118,7 @@ export function restoreConsole(): void {
 }
 
 /**
- * Registers `obsidian-dev-utils` per-test setup with a test framework's lifecycle hooks.
+ * Registers the generic per-test setup with a test framework's lifecycle hooks.
  *
  * Installs {@link installWarningsAsErrors} (once) so any Node process warning fails the run. Before
  * each test (via the supplied `beforeEach`) it resets the shared-state bag and the injected
@@ -195,7 +197,6 @@ function beforeEachHandler(): void {
   // drained it, i.e. between tests.
   const errorsBetweenTests = drainCollectedUnhandledAsyncErrors();
 
-  resetObsidianDevUtilsState();
   resetTypescriptLibState();
   Library.resetToDefault();
   enableAsyncOperationTracking();

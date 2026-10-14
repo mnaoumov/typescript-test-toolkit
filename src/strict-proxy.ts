@@ -8,7 +8,7 @@
  * `obsidian-test-mocks/src/internal/strict-proxy.ts`.
  */
 
-import type { GenericFunction } from './function.ts';
+import type { GenericFunction } from '@mnaoumov/typescript-lib/function';
 
 /**
  * A recursive partial type compatible with `exactOptionalPropertyTypes`.

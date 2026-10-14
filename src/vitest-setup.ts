@@ -1,10 +1,10 @@
 /**
  * @file
  *
- * Vitest setup file for `obsidian-dev-utils`.
+ * Vitest setup file for `@mnaoumov/typescript-test-toolkit`.
  *
  * Add it to your Vitest config's `setupFiles` (or import it from another setup file). Before each
- * test it resets the shared-state bag and enables async-operation tracking; after each test it
+ * test it resets the shared-state slot and enables async-operation tracking; after each test it
  * disables tracking, so tests can `await waitForAllAsyncOperations()` against isolated state.
  */
 

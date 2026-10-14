@@ -1,3 +1,4 @@
+import { ensureGenericObject } from '@mnaoumov/typescript-lib/type-guards';
 import {
   describe,
   expect,
@@ -8,7 +9,6 @@ import {
   bypassStrictProxy,
   strictProxy
 } from './strict-proxy.ts';
-import { ensureGenericObject } from './type-guards.ts';
 
 /**
  * The properties `@vitest/pretty-format` and the matchers duck-type on, none of which belongs to a real

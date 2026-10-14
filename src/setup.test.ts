@@ -1,3 +1,17 @@
+import { invokeAsyncSafely } from '@mnaoumov/typescript-lib/async';
+import {
+  drainCollectedUnhandledAsyncErrors,
+  emitAsyncErrorEvent,
+  registerAsyncErrorEventHandler,
+  startAsyncErrorIgnoreContext
+} from '@mnaoumov/typescript-lib/error';
+import {
+  noop,
+  noopAsync
+} from '@mnaoumov/typescript-lib/function';
+import { Library } from '@mnaoumov/typescript-lib/library';
+import { assertNonNullable } from '@mnaoumov/typescript-lib/type-guards';
+import { getTypescriptLibState } from '@mnaoumov/typescript-lib/typescript-lib-state';
 import {
   afterEach,
   describe,
@@ -10,28 +24,14 @@ import type { HookRegistrar } from './setup.ts';
 
 import {
   disableAsyncOperationTracking,
-  invokeAsyncSafely,
   waitForAllAsyncOperations
-} from './async.ts';
-import {
-  drainCollectedUnhandledAsyncErrors,
-  emitAsyncErrorEvent,
-  registerAsyncErrorEventHandler,
-  startAsyncErrorIgnoreContext
-} from './error.ts';
-import {
-  noop,
-  noopAsync
-} from './function.ts';
-import { Library } from './library.ts';
-import { getObsidianDevUtilsState } from './obsidian-dev-utils-state.ts';
+} from './async-operation-tracking.ts';
 import {
   restoreConsole,
   setup,
   silenceConsole
 } from './setup.ts';
 import { strictProxy } from './strict-proxy.ts';
-import { assertNonNullable } from './type-guards.ts';
 
 type CapturedHook = HookFunction | undefined;
 
@@ -87,16 +87,16 @@ describe('setup', () => {
     expect(beforeEachCallback).toBeDefined();
     expect(afterEachCallback).toBeDefined();
 
-    const before = getObsidianDevUtilsState('setup-test-key', 'a');
+    const before = getTypescriptLibState('setup-test-key', 'a');
     before.value = 'mutated';
-    Library.init({ cssClassScope: 'mutated-scope', debugPrefixNamespace: '', shouldPrintStackTrace: false });
+    Library.init({ debugPrefixNamespace: 'mutated-prefix:', shouldPrintStackTrace: false });
 
     await beforeEachCallback?.();
 
-    const after = getObsidianDevUtilsState('setup-test-key', 'b');
+    const after = getTypescriptLibState('setup-test-key', 'b');
     expect(after).not.toBe(before);
     expect(after.value).toBe('b');
-    expect(Library.cssClassScope).toBe('');
+    expect(Library.debugPrefixNamespace).toBe('');
 
     await expect(waitForAllAsyncOperations()).resolves.toBeUndefined();
 
