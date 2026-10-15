@@ -71,7 +71,6 @@ export const NODE_WEB_GLOBAL_NAMES = [
  *
  * @param target - The global object to fill in. Defaults to `globalThis`.
  */
-// eslint-disable-next-line obsidianmd/no-global-this -- Intentional: this runs under `environment: 'node'` as well as `jsdom`, and `window` is undefined in the former.
 export function restoreNodeWebGlobals(target: object = globalThis): void {
   for (const source of NODE_WEB_GLOBAL_SOURCES) {
     for (const name of NODE_WEB_GLOBAL_NAMES) {

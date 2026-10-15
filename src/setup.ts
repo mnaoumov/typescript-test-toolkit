@@ -13,7 +13,7 @@
  * tracked fire-and-forget operations **and the pending macrotask queue**, disables tracking, restores
  * the original `console` methods, and fails the test with an `AggregateError` if any unhandled async
  * error was emitted. A registered consumer handler does not exempt an error — only
- * {@link error!startAsyncErrorIgnoreContext} does. The collection window deliberately stays open between
+ * {@link @mnaoumov/typescript-lib/error!startAsyncErrorIgnoreContext} does. The collection window deliberately stays open between
  * tests and is closed by an `afterAll`, so an error emitted in the gap after a test (typically by a
  * `setTimeout` it left pending) fails the run instead of printing to a restored `console` and being
  * dropped. It also installs {@link installWarningsAsErrors} once, so any Node process
@@ -105,7 +105,7 @@ const originalConsoleMethodDescriptors = new Map<ConsoleMethodName, PropertyDesc
 
 // Captured at module load, which is before any test can install fake timers. Draining teardown through a
 // faked `setTimeout` would never resolve, hanging every test that left `vi.useFakeTimers()` on.
-// eslint-disable-next-line obsidianmd/no-global-this, unicorn/no-unnecessary-global-this -- Intentional: `globalThis.setTimeout` (not `window`) so teardown also works under `environment: 'node'`, where `window` is undefined; the specific window is irrelevant for a plain timer. The explicit `globalThis` is also what keeps the sibling `obsidianmd/prefer-window-timers` rule from rewriting it back to `window`.
+
 const scheduleMacrotask = globalThis.setTimeout.bind(globalThis);
 
 /**
@@ -208,9 +208,7 @@ function beforeEachHandler(): void {
 }
 
 function clearLocalStorage(): void {
-  // eslint-disable-next-line no-restricted-globals, n/no-unsupported-features/node-builtins -- Test setup: clearing per-worker localStorage; guarded, and provided only where node supports it.
   if (typeof localStorage !== 'undefined') {
-    // eslint-disable-next-line no-restricted-globals, n/no-unsupported-features/node-builtins -- Test setup: clearing per-worker localStorage.
     localStorage.clear();
   }
 }

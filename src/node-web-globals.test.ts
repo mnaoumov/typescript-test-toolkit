@@ -21,7 +21,6 @@ describe('restoreNodeWebGlobals', () => {
     expect(Reflect.get(target, 'SubtleCrypto')).toBe(webcrypto.subtle.constructor);
 
     for (const name of NODE_WEB_GLOBAL_NAMES) {
-      // eslint-disable-next-line obsidianmd/no-global-this -- Intentional: this runs under `environment: 'node'` as well as `jsdom`, and `window` is undefined in the former.
       if (name === 'URLPattern' && !('URLPattern' in globalThis)) {
         continue;
       }
@@ -62,7 +61,6 @@ describe('restoreNodeWebGlobals', () => {
     expect(() => {
       restoreNodeWebGlobals();
     }).not.toThrow();
-    // eslint-disable-next-line obsidianmd/no-global-this -- Intentional: this runs under `environment: 'node'` as well as `jsdom`, and `window` is undefined in the former.
     expect(globalThis.ReadableStream).toBe(ReadableStream);
   });
 });
