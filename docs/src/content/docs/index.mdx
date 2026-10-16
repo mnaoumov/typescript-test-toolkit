@@ -1,0 +1,38 @@
+---
+title: TypeScript Test Toolkit
+description: Generic test support for TypeScript projects.
+template: splash
+editUrl: false
+lastUpdated: false
+hero:
+    title: TypeScript Test Toolkit
+    tagline: A Vitest / Jest per-test setup, async-operation tracking, strictProxy and mock helpers, usable in any TypeScript project.
+    actions:
+        - text: Getting started
+          link: /typescript-test-toolkit/guides/getting-started/
+          icon: rocket
+        - text: API reference
+          link: /typescript-test-toolkit/api/
+          icon: open-book
+          variant: secondary
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components'
+
+<CardGrid stagger>
+    <Card title="One line of setup" icon="setting">
+        Point Vitest or Jest at [one setup file](./guides/testing/#wiring-the-setup) and every test starts from isolated state.
+    </Card>
+
+    <Card title="Awaitable fire-and-forget" icon="random">
+        [Drain every fire-and-forget operation](./guides/testing/#async-operation-tracking) before asserting, with `waitForAllAsyncOperations()`.
+    </Card>
+
+    <Card title="No swallowed errors" icon="warning">
+        A rejection nobody awaited, or a Node warning, [fails the test](./guides/testing/#unhandled-async-errors) instead of scrolling past.
+    </Card>
+
+    <Card title="Strict mocks" icon="approve-check">
+        `strictProxy` throws on every member a mock did not provide, instead of returning `undefined`.
+    </Card>
+</CardGrid>
