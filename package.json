@@ -1,6 +1,6 @@
 {
   "name": "@mnaoumov/typescript-test-toolkit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generic test support for TypeScript projects: Vitest/Jest setup, async-operation tracking, strictProxy and mock helpers.",
   "keywords": [
     "typescript",
