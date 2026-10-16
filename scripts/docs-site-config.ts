@@ -8,5 +8,6 @@ import type { DocsSiteConfig } from '@mnaoumov/typescript-dev-toolkit/docs-site/
 
 export const DOCS_SITE_CONFIG: DocsSiteConfig = {
   repo: 'typescript-test-toolkit',
+  repoHomepage: 'set',
   title: 'TypeScript Test Toolkit'
 };
