@@ -34,6 +34,8 @@ export default defineConfig({
 
 `beforeEach`, `afterEach` and `afterAll` are only available once the test framework is installed, so use `setupFilesAfterEnv`, not `setupFiles`:
 
+<!-- snippet-check: skip needs the `jest` package, which this repository does not install -->
+
 ```typescript
 // jest.config.ts
 import type { Config } from 'jest';
@@ -49,6 +51,8 @@ export default config;
 
 The framework-agnostic endpoint registers the setup with the hooks you hand it. All three are required: `afterAll` closes the window in which unhandled async errors are collected, once the file's last test has run.
 
+<!-- snippet-check: skip `your-test-framework` stands for the reader's framework -->
+
 ```typescript
 import { setup } from '@mnaoumov/typescript-test-toolkit/setup';
 import {
@@ -63,6 +67,11 @@ setup({ afterAll, afterEach, beforeEach });
 ## Async-operation tracking
 
 Fire-and-forget operations scheduled through `invokeAsyncSafely` or `convertAsyncToSync` from `@mnaoumov/typescript-lib/async` cannot be awaited by the test that triggered them, which makes an assertion that depends on them flaky. While tracking is enabled, each such operation is recorded until it settles, and `waitForAllAsyncOperations()` waits for all of them:
+
+<!-- snippet-check: context import { expect, it } from 'vitest'; -->
+<!-- snippet-check: context declare function doSomethingThatSchedulesFireAndForgetWork(): void; -->
+<!-- snippet-check: context declare const sideEffect: unknown; -->
+<!-- snippet-check: context declare const expected: unknown; -->
 
 ```typescript
 import { waitForAllAsyncOperations } from '@mnaoumov/typescript-test-toolkit/async-operation-tracking';
@@ -88,6 +97,8 @@ A handler registered with `registerAsyncErrorEventHandler` does not count as han
 
 When a test triggers an async error on purpose, open an ignore context with `startAsyncErrorIgnoreContext()`. An operation scheduled inside the context is ignored even when its rejection settles later, after the context has closed, so the test needs no manual draining:
 
+<!-- snippet-check: context import { expect, it } from 'vitest'; -->
+
 ```typescript
 import { invokeAsyncSafely } from '@mnaoumov/typescript-lib/async';
 import { startAsyncErrorIgnoreContext } from '@mnaoumov/typescript-lib/error';
@@ -99,6 +110,10 @@ it('swallows the rejection without throwing synchronously', () => {
 ```
 
 Only operations scheduled inside the context are ignored. One scheduled outside it is still reported, even if another was ignored:
+
+<!-- snippet-check: context import { expect, it } from 'vitest'; -->
+<!-- snippet-check: context import { invokeAsyncSafely } from '@mnaoumov/typescript-lib/async'; -->
+<!-- snippet-check: context import { startAsyncErrorIgnoreContext } from '@mnaoumov/typescript-lib/error'; -->
 
 ```typescript
 it('still fails on an unignored rejection', () => {
@@ -120,6 +135,9 @@ The macrotask drain uses the `setTimeout` captured when the setup loaded, so a t
 ## Silenced console output
 
 The setup replaces every `console` method with a no-op before each test and restores the originals afterward, so incidental `console.log`, `warn` and `error` output does not clutter the test report. A test that asserts on console output spies on the method it cares about, and the spy replaces the no-op for that test:
+
+<!-- snippet-check: context import { expect, it } from 'vitest'; -->
+<!-- snippet-check: context declare function doSomethingThatLogs(): void; -->
 
 ```typescript
 import { vi } from 'vitest';
