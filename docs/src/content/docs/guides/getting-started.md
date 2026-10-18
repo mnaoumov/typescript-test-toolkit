@@ -51,12 +51,17 @@ import { strictProxy } from '@mnaoumov/typescript-test-toolkit/strict-proxy';
 ```typescript
 import { strictProxy } from '@mnaoumov/typescript-test-toolkit/strict-proxy';
 
-const fileSystem = strictProxy<FileSystem>({
+interface FileStore {
+  readFile(path: string): Promise<string>;
+  writeFile(path: string, content: string): Promise<void>;
+}
+
+const fileStore = strictProxy<FileStore>({
   readFile: async () => 'content'
 });
 
-await fileSystem.readFile('a.txt');
-await fileSystem.writeFile('a.txt', ''); // Throws: Unmocked property "writeFile" was accessed on mock object
+await fileStore.readFile('a.txt');
+await fileStore.writeFile('a.txt', ''); // Throws: Unmocked property "writeFile" was accessed on mock object
 ```
 
 Nested plain objects are wrapped too. Properties that test tooling probes while printing a value, such as `then`, `toJSON` and `Symbol.iterator`, pass through rather than throw. `bypassStrictProxy` returns the object underneath, for reading an optional member without tripping the proxy.
@@ -64,6 +69,8 @@ Nested plain objects are wrapped too. Properties that test tooling probes while 
 ## Spying with the original implementation
 
 `mockImplementation` (Vitest only) spies on a method and hands the replacement the original implementation as its first argument, so a test can wrap the real behavior rather than replace it:
+
+<!-- snippet-check: context declare const service: { load(path: string): null | string }; -->
 
 ```typescript
 import { mockImplementation } from '@mnaoumov/typescript-test-toolkit/mock-implementation';

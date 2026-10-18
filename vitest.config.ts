@@ -41,6 +41,16 @@ export default defineLibraryVitestConfig({
         server: SHARED_SERVER,
         setupFiles: []
       }
+    },
+    {
+      test: {
+        environment: 'node',
+        exclude: [...DEFAULT_VITEST_TEST_EXCLUDE],
+        // The scripts' own helpers, such as the documentation checks; outside `src/`, so outside the coverage gate.
+        include: ['scripts/**/*.test.ts'],
+        name: 'unit-tests:scripts',
+        setupFiles: []
+      }
     }
   ]
 });
