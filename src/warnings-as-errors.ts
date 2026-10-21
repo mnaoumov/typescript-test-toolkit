@@ -24,7 +24,7 @@ import process from 'node:process';
  * `Symbol.for` is what makes the check survive that boundary: the global symbol registry is per
  * isolate, and VM contexts share their worker's isolate, so all realms read the same key.
  */
-const THROW_ON_WARNING_LISTENER_MARKER = Symbol.for('obsidian-dev-utils:throwOnWarning');
+const THROW_ON_WARNING_LISTENER_MARKER = Symbol.for('@mnaoumov/typescript-test-toolkit/throwOnWarning');
 
 /**
  * Registers a process `'warning'` listener that turns every Node warning into a test failure.

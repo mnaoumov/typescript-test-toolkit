@@ -56,7 +56,7 @@ describe('warnings-as-errors', () => {
         throw new Error('from another realm');
       }
 
-      Object.defineProperty(listenerFromAnotherRealm, Symbol.for('obsidian-dev-utils:throwOnWarning'), { value: true });
+      Object.defineProperty(listenerFromAnotherRealm, Symbol.for('@mnaoumov/typescript-test-toolkit/throwOnWarning'), { value: true });
       process.on('warning', listenerFromAnotherRealm);
 
       try {
