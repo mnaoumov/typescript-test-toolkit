@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.0.3
+
+- build(deps): accept @mnaoumov/typescript-lib 2
+- refactor(warnings-as-errors): rename the warning listener marker to a typescript-test-toolkit name
+- chore(build): drop the duplicate build:compile:typescript script
+- build(docs): swap the local documentation checks for typescript-dev-toolkit 3.7.0's shared modules
+- docs: check guide snippets and retired obsidian-dev-utils references
+
 ## 1.0.2
 
 - build(deps): bump @mnaoumov/typescript-dev-toolkit to 3.6.2
