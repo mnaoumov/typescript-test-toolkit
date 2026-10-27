@@ -1,0 +1,14 @@
+{
+  "fflate": {
+    "section": "overrides",
+    "why": "https://github.com/advisories/GHSA-px8p-9vwx-vf98 affects fflate before 0.7.5. Satori and its font parser still pin 0.7.3; use the patched 0.7 release without downgrading Satori.",
+    "check": "npm view satori@latest dependencies.fflate",
+    "expect": "0.7.3"
+  },
+  "katex": {
+    "section": "overrides",
+    "why": "https://github.com/advisories/GHSA-238p-pmpm-9mq7 affects KaTeX before 0.18.2. Markdownlint's micromark-extension-math still requests ^0.16.0, so a normal lockfile update cannot reach the fix. The markdown lint gate and documentation build verify this override.",
+    "check": "npm view micromark-extension-math@latest dependencies.katex",
+    "expect": "^0.16.0"
+  }
+}
