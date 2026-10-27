@@ -36,9 +36,9 @@ import { strictProxy } from './strict-proxy.ts';
 type CapturedHook = HookFunction | undefined;
 
 interface CapturedSetupHooks {
-  afterAllCallback: () => ReturnType<HookFunction>;
-  afterEachCallback: () => ReturnType<HookFunction>;
-  beforeEachCallback: () => ReturnType<HookFunction>;
+  readonly afterAllCallback: () => ReturnType<HookFunction>;
+  readonly afterEachCallback: () => ReturnType<HookFunction>;
+  readonly beforeEachCallback: () => ReturnType<HookFunction>;
 }
 
 type HookFunction = Parameters<HookRegistrar>[0];

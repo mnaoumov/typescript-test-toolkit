@@ -32,13 +32,13 @@ const PROBED_BY_TEST_TOOLING = [
 ];
 
 interface Nested {
-  value: number;
+  readonly value: number;
 }
 
 interface TestObject {
-  $function: () => string;
-  name: string;
-  nested: Nested;
+  readonly $function: () => string;
+  readonly name: string;
+  readonly nested: Nested;
 }
 
 describe('strictProxy', () => {
@@ -133,7 +133,7 @@ describe('strictProxy', () => {
       public value = 10;
     }
     interface ObjectWithClass {
-      instance: MyClass;
+      readonly instance: MyClass;
     }
     const instance = new MyClass();
     const proxy = strictProxy<ObjectWithClass>({ instance });
@@ -142,7 +142,7 @@ describe('strictProxy', () => {
 
   it('should not recursively proxy arrays', () => {
     interface ObjectWithArray {
-      items: number[];
+      readonly items: number[];
     }
     const items = [1, 2, 3];
     const proxy = strictProxy<ObjectWithArray>({ items });
