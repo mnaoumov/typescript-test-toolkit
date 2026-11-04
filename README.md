@@ -18,8 +18,6 @@ It is one of five packages that replace [`obsidian-dev-utils`](https://github.co
 
 ## See also
 
-[My other Obsidian resources](https://mnaoumov.dev/obsidian/)
-
 | Library | Features | How `@mnaoumov/typescript-test-toolkit` differs |
 | --- | --- | --- |
 | [`@mnaoumov/obsidian-dev-toolkit`](https://github.com/mnaoumov/obsidian-dev-toolkit) (my tool) | Obsidian plugin builds and releases; shared `ESLint` and `Vitest` configurations; per-test setup for plugin tests | Generic foundation of `@mnaoumov/obsidian-dev-toolkit`'s per-test setup; usable outside Obsidian; leaves the Obsidian state reset and plugin tooling to that toolkit |
