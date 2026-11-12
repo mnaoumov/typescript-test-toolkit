@@ -186,6 +186,16 @@ function getJsdocsConfigs(context: EslintConfigContext): Linter.Config[] {
   ]);
 }
 
+// "No value" is `null`, not `undefined`: the shared config keeps the rule off until every consumer has migrated.
+function getNoUndefinedReturnTypeConfigs(context: EslintConfigContext): Linter.Config[] {
+  return defineConfig({
+    files: context.allFiles(),
+    rules: {
+      'typescript-dev-toolkit/no-undefined-return-type': 'error'
+    }
+  });
+}
+
 function getTsdocsConfigs(context: EslintConfigContext): Linter.Config[] {
   return defineConfig([
     {
@@ -204,6 +214,7 @@ export const configs: Linter.Config[] = defineEslintConfigs({
       ...getIgnoreConfigs(),
       ...getDesktopModuleConfigs(),
       ...getBrowserGlobalConfigs(),
+      ...getNoUndefinedReturnTypeConfigs(context),
       ...getTsdocsConfigs(context),
       ...getJsdocsConfigs(context)
     ]);
