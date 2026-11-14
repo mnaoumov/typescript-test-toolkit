@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 1.1.0
+
+This release has 1 new feature and 5 documentation changes. 8 maintenance commits (tests, build, CI, refactoring, dependencies) are not listed.
+
+### New
+
+- **deps:** accept @mnaoumov/typescript-lib 4 alongside 3.1
+
+### Documentation
+
+- **changelog:** regroup the published release notes for readers
+- **readme:** add a Changelog section linking CHANGELOG.md
+- drop the Obsidian resources link from See also
+- **readme:** compare related test-support libraries
+- add issue-filing instructions for AI agents
+
 ## 1.0.3
 
 This release has 1 documentation change. 4 maintenance commits (tests, build, CI, refactoring, dependencies) are not listed.
