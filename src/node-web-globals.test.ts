@@ -1,6 +1,10 @@
 import { webcrypto } from 'node:crypto';
 import { ReadableStream } from 'node:stream/web';
 import {
+  TextDecoder,
+  TextEncoder
+} from 'node:util';
+import {
   describe,
   expect,
   it
@@ -28,6 +32,23 @@ describe('restoreNodeWebGlobals', () => {
       expect(Reflect.get(target, name), name).toBeDefined();
       expect(Object.getOwnPropertyDescriptor(target, name)).toMatchObject({ configurable: true, enumerable: false, writable: true });
     }
+  });
+
+  it('should define TextEncoder and TextDecoder from node:util, which jest-environment-jsdom lacks', () => {
+    const target = {};
+    restoreNodeWebGlobals(target);
+
+    expect(Reflect.get(target, 'TextEncoder')).toBe(TextEncoder);
+    expect(Reflect.get(target, 'TextDecoder')).toBe(TextDecoder);
+  });
+
+  it('should leave an existing TextEncoder untouched', () => {
+    const existing = Symbol('existing');
+    const target: Record<string, unknown> = { TextEncoder: existing };
+    restoreNodeWebGlobals(target);
+
+    expect(target['TextEncoder']).toBe(existing);
+    expect(target['TextDecoder']).toBe(TextDecoder);
   });
 
   it('should leave every name that is already present untouched', () => {
