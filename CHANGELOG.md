@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.2.0
+
+This release has 1 new feature.
+
+### New
+
+- **node-web-globals:** restore TextEncoder and TextDecoder, which jest-environment-jsdom lacks
+
 ## 1.1.0
 
 This release has 1 new feature and 5 documentation changes. 8 maintenance commits (tests, build, CI, refactoring, dependencies) are not listed.
