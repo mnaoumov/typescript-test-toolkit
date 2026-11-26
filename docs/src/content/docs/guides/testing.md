@@ -165,6 +165,6 @@ Because a run without `localStorage` emits an `ExperimentalWarning`, it pairs wi
 
 ## Node Web API globals under a VM pool
 
-Under Vitest's `vmThreads` or `vmForks` pool with the `jsdom` environment, a test's global object is the `jsdom` window, and Vitest copies only a few Node globals into it. `crypto.subtle`, the Web Streams classes, `CompressionStream`, the `Performance*` classes and `URLPattern` are missing there, though present under the default pool. Code that feature-detects one of them then silently tests its fallback branch.
+Under Vitest's `vmThreads` or `vmForks` pool with the `jsdom` environment, a test's global object is the `jsdom` window, and Vitest copies only a few Node globals into it. `crypto.subtle`, the Web Streams classes, `CompressionStream`, the `Performance*` classes and `URLPattern` are missing there, though present under the default pool. Code that feature-detects one of them then silently tests its fallback branch. Jest's `jest-environment-jsdom` copies fewer still: it lacks even `TextEncoder` and `TextDecoder`, so code that encodes text throws `TextEncoder is not defined` there.
 
 The setup calls `restoreNodeWebGlobals()` from `@mnaoumov/typescript-test-toolkit/node-web-globals`, which defines each missing name from the Node module that exports it and leaves every name already present alone. Under the default pool it changes nothing. `CryptoKey` and `QuotaExceededError` are not restored, because no Node module exports them.

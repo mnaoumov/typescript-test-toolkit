@@ -7,7 +7,8 @@
  * `crypto.subtle`, the Web Streams classes, `CompressionStream`, the `Performance*` classes and
  * `URLPattern` are all there. Under `vmThreads` / `vmForks` the test's global object IS the `jsdom`
  * window, and Vitest copies only a fixed handful of Node globals into it (`structuredClone`, `fetch`,
- * `TextEncoder`, …), so those are simply absent. Measured on Node 26 with `jsdom`: `crypto` exists without
+ * `TextEncoder`, …), so those are simply absent. `jest-environment-jsdom` copies fewer still: not even
+ * `TextEncoder` and `TextDecoder`, which are restored here too. Measured on Node 26 with `jsdom`: `crypto` exists without
  * `subtle`, and 31 global names present under `forks` are missing under `vmThreads` — the ones restored
  * here, plus `CryptoKey` and `QuotaExceededError`, which no Node module exports, and `matchMedia`,
  * `createPopup`, `scrollLeft` and `scrollTop`, which are not Node's to give.
@@ -26,17 +27,25 @@ import * as perfHooks from 'node:perf_hooks';
 import * as streamWeb from 'node:stream/web';
 import * as url from 'node:url';
 /* eslint-enable import-x/no-namespace -- Only the three module namespaces above. */
+import {
+  TextDecoder,
+  TextEncoder
+} from 'node:util';
 
 /**
  * The Node modules the restored globals are read from, each one searched for every name.
  *
  * A namespace lookup rather than named imports, because a name one Node version lacks (`URLPattern`
- * arrived in `node:url` after Node 22) would otherwise fail the whole module at link time.
+ * arrived in `node:url` after Node 22) would otherwise fail the whole module at link time. The text codec
+ * classes every supported Node version has, so they are imported by name.
  */
-const NODE_WEB_GLOBAL_SOURCES: readonly object[] = [streamWeb, perfHooks, url];
+const NODE_WEB_GLOBAL_SOURCES: readonly object[] = [streamWeb, perfHooks, url, { TextDecoder, TextEncoder }];
 
 /**
  * The global names a VM-backed `jsdom` context lacks and a Node module exports under the same name.
+ *
+ * `TextEncoder` and `TextDecoder` are here although Vitest's `jsdom` copies them itself, because
+ * `jest-environment-jsdom` does not: under Jest, code that encodes text threw `TextEncoder is not defined`.
  */
 export const NODE_WEB_GLOBAL_NAMES = [
   'ByteLengthQueuingStrategy',
@@ -55,7 +64,9 @@ export const NODE_WEB_GLOBAL_NAMES = [
   'ReadableStreamBYOBRequest',
   'ReadableStreamDefaultController',
   'ReadableStreamDefaultReader',
+  'TextDecoder',
   'TextDecoderStream',
+  'TextEncoder',
   'TextEncoderStream',
   'TransformStream',
   'TransformStreamDefaultController',
