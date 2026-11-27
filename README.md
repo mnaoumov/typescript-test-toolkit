@@ -1,5 +1,7 @@
 # @mnaoumov/typescript-test-toolkit
 
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/mnaoumov) [![npm version](https://img.shields.io/npm/v/@mnaoumov/typescript-test-toolkit)](https://www.npmjs.com/package/@mnaoumov/typescript-test-toolkit) [![npm downloads](https://img.shields.io/npm/dm/@mnaoumov/typescript-test-toolkit)](https://www.npmjs.com/package/@mnaoumov/typescript-test-toolkit) [![CI](https://img.shields.io/github/actions/workflow/status/mnaoumov/typescript-test-toolkit/ci.yml?branch=main&label=CI)](https://github.com/mnaoumov/typescript-test-toolkit/actions/workflows/ci.yml) [![Coverage: 100%](https://img.shields.io/badge/coverage-100%25-brightgreen)](https://github.com/mnaoumov/typescript-test-toolkit) [![License](https://img.shields.io/github/license/mnaoumov/typescript-test-toolkit)](https://github.com/mnaoumov/typescript-test-toolkit/blob/main/LICENSE) [![Node.js](https://img.shields.io/node/v/@mnaoumov/typescript-test-toolkit)](https://nodejs.org/) [![Types](https://img.shields.io/npm/types/@mnaoumov/typescript-test-toolkit)](https://www.npmjs.com/package/@mnaoumov/typescript-test-toolkit)
+
 Generic test support for TypeScript projects: a Vitest / Jest per-test setup, async-operation tracking (`waitForAllAsyncOperations`), `strictProxy` and mock helpers. Install it as a dev dependency.
 
 ## Installation
